@@ -1,0 +1,131 @@
+
+#nav-trigger {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  padding: 12px 10px;
+  width: 40px;
+  height: 40px;
+  background-color: #333;
+}
+
+#nav-trigger:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -1px;
+  margin-left: -10px;
+  width: 20px;
+  height: 2px;
+  background-color: #fff;
+  transition: transform 200ms;
+  -webkit-transition: -webkit-transform 200ms;
+}
+
+#nav-trigger:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -1px;
+  margin-left: -10px;
+  width: 20px;
+  height: 2px;
+  background-color: #fff;
+  transition: transform 200ms;
+  -webkit-transition: -webkit-transform 200ms;
+}
+
+#nav-trigger:active {
+  padding: 13px 10px 11px;
+}
+
+#nav-trigger:active:before {
+  margin-top: 0;
+}
+
+#nav-trigger:active:after {
+  margin-top: 0;
+}
+
+#nav-trigger span {
+  display: block;
+  width: 20px;
+  height: 16px;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  white-space: nowrap;
+  text-indent: 100%;
+  overflow: hidden;
+  transition: 200ms;
+  -webkit-transition: 200ms;
+  user-select: none;
+}
+
+#nav {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  z-index: 110;
+}
+
+#nav .group {
+  width: 200px;
+  background-color: #444;
+}
+
+#nav .langs {
+  padding: 10px;
+}
+
+#nav .langs dt {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  color: #fff;
+}
+
+#nav .util {
+  padding: 10px 0;
+  background-color: #333;
+}
+
+#nav .util a {
+  display: block;
+  padding: 8px 0;
+  font-size: 14px;
+  line-height: 24px;
+  color: #fff;
+}
+
+#nav .util a:active {
+  padding: 9px 0 7px;
+}
+
+#nav .util .mt {
+  width: 40px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.nav-open #nav-trigger:before {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.nav-open #nav-trigger:after {
+  transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+
+.nav-open #nav-trigger span {
+  border-color: transparent;
+}
+
+.nav-open #nav {
+  display: block;
+}

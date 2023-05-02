@@ -1,0 +1,142 @@
+@charset "utf-8";
+html, body {
+    width: 100%;
+    height: 100%;
+}
+body {
+    * {
+        &,
+        &::before,
+        &::after {
+            word-wrap: break-word;
+            word-break: keep-all;
+            text-rendering: optimizeLegibility;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box;
+        }
+    }
+}
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+input,textarea,button,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
+    -webkit-text-size-adjust: none;
+}
+
+img, fieldset {
+    border: 0;
+}
+ul, ol, li {
+    list-style: none;
+}
+legend, caption {
+    display: none;
+    clear: both;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 0;
+}
+table, thead, tbody, tfoot, tr, th, td {
+    position: static;
+}
+textarea, input, button {
+    outline-color: -moz-use-text-color;
+    outline-style: none;
+    outline-width: medium;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+}
+textarea {
+    resize: none;
+}
+label {
+    cursor: pointer;
+}
+label, textarea, input, select, button {
+    vertical-align: middle;
+}
+p {
+    white-space: normal;
+    word-wrap: break-word;
+    word-break: keep-all;
+}
+pre {
+    overflow-x:scroll;
+}
+
+
+a,button,input,select {outline-color:-moz-use-text-color;outline-style:none;outline-width:medium;}
+
+/* a link setting */
+a {
+    &,
+    &:link {
+        text-decoration: none;
+    }
+}
+
+button {
+    overflow: visible;
+    cursor: pointer;
+    background: none;
+    border: 0;
+    &[disabled="disabled"] {
+        cursor: default;
+    }
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    &::-ms-expand {
+        display: none;
+    }
+}
+
+
+/* text transform */
+.tup {
+    text-transform: uppercase;
+}
+.tcp {
+    text-transform: capitalize;
+}
+.text-ir {
+    display: block;
+    position: absolute;
+    margin: -1px;
+    padding: 0;
+    width: 1px;
+    height: 1px;
+    border: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+/* etc default setting */
+.hidden {visibility:hidden;}
+.none {display:none !important;}
+.nowrap {white-space: nowrap;}

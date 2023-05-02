@@ -1,0 +1,7 @@
+{
+  "locales": ["ko-KR", "en-US"],
+  "defaultLocale": "ko-KR",
+  "pages": {
+    "*": ["app"]
+  }
+}

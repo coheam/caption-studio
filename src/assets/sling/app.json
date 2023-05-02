@@ -1,0 +1,10 @@
+{
+  "menu" : [
+    { "id": "new-file", "text": "new-file", "type": "action", "target": "" },
+    { "id": "import-video", "text": "import-video", "type": "dialog", "target": "import-video" },
+    { "id": "import-subtitle", "text": "import-subtitle", "type": "dialog", "target": "import-subtitle" },
+    { "id": "export-subtitle", "text": "export-subtitle", "type": "dialog", "target": "export-subtitle" },
+    { "id": "cs-setting", "text": "cs-setting", "type": "dialog", "target": "cs-setting" },
+    { "id": "cs-manual", "text": "cs-manual", "type": "link", "target": "/manual" }
+  ]
+}
