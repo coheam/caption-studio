@@ -4,12 +4,14 @@ import { Inter } from 'next/font/google'
 import Header from '@/components/Header'
 import Nav from '@/components/Nav'
 import Sheet from '@/components/Sheet'
+import Hotkeys from '@/components/Hotkeys'
 
 import styles from '@styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  Hotkeys()
   return (
     <>
       <Head>

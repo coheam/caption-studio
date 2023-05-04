@@ -3,7 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { storeProps } from "@/store"
 import SheetRow from './SheetRow'
 
+const colMoved = {
+  smi : ['start','text','memo'],
+  srt : ['start','end','text','memo']
+}
+const colFormat = {
+  smi : ['index','start','dur','text','memo'],
+  srt : ['index','start','end','dur','text','memo']
+}
 const Sheet = () => {
+  const config = useSelector((state: storeProps) => state.app.config)
+  const current = useSelector((state: storeProps) => state.app.current)
   const timeline = useSelector((state: storeProps) => state.subtitle.timeline)
   const rowHeight = useSelector((state: storeProps) => state.subtitle.state.map(({height}) => height))
   const dispatch = useDispatch()
@@ -14,6 +24,7 @@ const Sheet = () => {
   const [bodyHeight, setBodyHeight] = useState(0)
   const [displayRow, setDisplayRow] = useState<any[]>([])
 
+  const format = Object.getOwnPropertyDescriptor(colFormat, config.format)?.value
   const methods = {
     drawRow(scroll: number = 0, size:number = 0) {
       const display: any[] = []
@@ -72,24 +83,22 @@ const Sheet = () => {
       <div className="sheet-head" style={{left: `-${scrollLeft}px`}}>
         <div className="sheet-panel tcp">
           <div className="sheet-row">
-            <div className="index col">
-              <div className="cell">#</div>
-            </div>
-            <div className="starttime col">
-              <div className="cell">시작</div>
-            </div>
-            <div className="endtime col">
-              <div className="cell">종료</div>
-            </div>
-            <div className="dur col">
-              <div className="cell">지속</div>
-            </div>
-            <div className="text col">
-              <div className="cell">내용</div>
-            </div>
-            <div className="memo col">
-              <div className="cell">메모</div>
-            </div>
+            {format.map((colName: string, eq: number) => {
+              const colClassName = ['col']
+              colClassName.push(colName)
+              return (
+                <div className={colClassName.join(' ')} key={eq}>
+                  <div className="cell">
+                    {colName === 'index' && '#'}
+                    {colName === 'start' && '시작'}
+                    {colName === 'end' && '종료'}
+                    {colName === 'dur' && '지속'}
+                    {colName === 'text' && '내용'}
+                    {colName === 'memo' && '메모'}
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </div>
@@ -100,6 +109,8 @@ const Sheet = () => {
               const seq = rowData.index ?? index
               return (
                 <SheetRow key={seq}
+                  current={current}
+                  format={format}
                   rowData={{ ...rowData, index: seq }}
                   height={rowHeight[seq]}
                 ></SheetRow>

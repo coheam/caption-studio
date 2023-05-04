@@ -1,23 +1,24 @@
 import { ActionProps } from './_types';
 import { 
-  INJECT,
-  INSERT,
+  SET_THEME,
+  SET_CURRENT,
   DELETE
 } from './_namespace'
 import initialState from './_state'
 
 const Reducers = (state = initialState, action: ActionProps) => {
-  console.log(action.type)
-  console.log('app store')
+  const store = { ...state }
   switch (action.type) {
-    case INJECT:
-      return { ...state }
-    case INSERT:
-      return { ...state }
+    case SET_THEME:
+      store.config.theme = action.config.theme
+      return store
+    case SET_CURRENT:
+      store.current = action.current
+      return store
     case DELETE:
-      return { ...state }
+      return store
     default:
-      return state;
+      return store
   }
 }
 export default Reducers
