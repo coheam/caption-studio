@@ -5,10 +5,14 @@ const getDefaultState = (fontSize = 14): stateProps => {
   let padding: number = Math.floor(fontSize / 4.5)
   return {
     ready: false,
+    action: {
+      type: '',
+      stamp: 0
+    },
     config: {
       language: 'ko-KR',
       theme: 'black',
-      format: 'smi',
+      format: 'srt',
       timeInterval: 30,
     },
     colStyles: {
@@ -17,9 +21,10 @@ const getDefaultState = (fontSize = 14): stateProps => {
       padding: padding,
     },
     current: {
-      row: 0,
+      row: 10,
       col: 'text'
     },
+    edit: true
   }
 }
 

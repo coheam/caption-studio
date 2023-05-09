@@ -1,4 +1,4 @@
-import { ActionProps, timelineProps, subtitleStateProps } from './_types';
+import { reducersActionProps, timelineProps, subtitleStateProps } from './_types';
 import initialState from './_state'
 import { 
   INJECT_TIMELINE,
@@ -6,7 +6,7 @@ import {
   DELETE_TIMELINE
 } from './_namespace'
 
-const Reducers = (state = initialState, action: ActionProps) => {
+const Reducers = (state = initialState, action: reducersActionProps) => {
   console.log(action)
   switch (action.type) {
     case INJECT_TIMELINE:

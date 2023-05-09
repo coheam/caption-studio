@@ -1,4 +1,4 @@
-export interface ActionProps extends subtitleStateProps {
+export interface reducersActionProps extends subtitleStateProps {
   type: string
 }
 

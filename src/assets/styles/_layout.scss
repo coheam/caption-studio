@@ -1025,6 +1025,8 @@ html {
 }
 #sheet .sheet-contain {
     position: relative;
+    background-color: #fff;
+    z-index: 2;
 }
 
 #sheet .sheet-panel {
