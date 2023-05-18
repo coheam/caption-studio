@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React from 'react'
 import { sheetColProps } from "./types"
 import { timeFormat } from '@/util/NumberUtils'
+import { getObjectValue } from '@/util/ObjectUtils'
 
 const SheetCol = ({ index, current, colName, rowData, click, dblclick }: sheetColProps) => {
-  const compute = {
-    colData: Object.getOwnPropertyDescriptor(rowData, colName)?.value,
+  const computed = {
+    colData: getObjectValue(rowData, colName),
     colClassName: (() => {
       const className = ['col']
       className.push(colName)
@@ -19,7 +20,6 @@ const SheetCol = ({ index, current, colName, rowData, click, dblclick }: sheetCo
       e.preventDefault()
       e.stopPropagation()
       if (colName !== 'index' && colName !== 'dur') {
-        console.log(colName)
         click(index, colName)
       }
     },
@@ -30,26 +30,26 @@ const SheetCol = ({ index, current, colName, rowData, click, dblclick }: sheetCo
     }
   }
   return (
-    <div className={compute.colClassName}
+    <div className={computed.colClassName}
       onClick={methods.clickHandler}
       onDoubleClick={methods.dbClickHandler}
     >
       {colName === 'index' && (
-        <div className="cell">{compute.colData + 1}</div>
+        <div className="cell">{computed.colData + 1}</div>
       )}
       {(colName === 'start' || colName === 'end') && (
-        <div className="cell">{timeFormat(compute.colData)}</div>
+        <div className="cell">{timeFormat(computed.colData)}</div>
       )}
       {colName === 'dur' && (
         <div className="cell">{ rowData.end && ((rowData.end - rowData.start) / 1000).toFixed(3) }</div>
       )}
       {colName === 'text' && (
         <div className="cell" dangerouslySetInnerHTML={{
-          __html: `${compute.colData}`
+          __html: `${computed.colData}<br>`
         }}></div>
       )}
       {colName === 'memo' && (
-        <div className="cell">{compute.colData}</div>
+        <div className="cell">{computed.colData}</div>
       )}
     </div>
   )

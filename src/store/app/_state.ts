@@ -12,7 +12,7 @@ const getDefaultState = (fontSize = 14): stateProps => {
     config: {
       language: 'ko-KR',
       theme: 'black',
-      format: 'srt',
+      format: 'smi',
       timeInterval: 30,
     },
     colStyles: {
@@ -21,10 +21,10 @@ const getDefaultState = (fontSize = 14): stateProps => {
       padding: padding,
     },
     current: {
-      row: 10,
+      row: 0,
       col: 'text'
     },
-    edit: true
+    edit: false
   }
 }
 

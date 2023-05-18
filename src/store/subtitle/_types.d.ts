@@ -1,16 +1,29 @@
-export interface reducersActionProps extends subtitleStateProps {
+import { currentProps, stateProps as appStateProps } from "../app/_types"
+export interface payloadProps extends subtitleStateProps {
   type: string
+}
+
+export interface injectSubtitleProps {
+  app: appStateProps
+  timeline: timelineProps[]
+}
+
+export interface updateTimelineProps extends currentProps {
+  app?: appStateProps
+  data?: timelineProps
 }
 
 export interface subtitleStateProps {
   timeline: timelineProps[]
   state: stateProps[]
+  height: number
+  stamp: number
 }
 
 export interface timelineProps {
-  index?: Nullable<number>
+  index?: number
   start: number
-  end?: Nullable<number>
+  end?: number
   text: string
   memo: string
 }

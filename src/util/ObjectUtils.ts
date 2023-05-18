@@ -1,7 +1,7 @@
 export const isEquals = (n: Object, o: Object) : boolean => {
   for (let k in n) {
-    const nv = Object.getOwnPropertyDescriptor(n, k)?.value
-    const ov = Object.getOwnPropertyDescriptor(o, k)?.value
+    const nv = getObjectValue(n, k)
+    const ov = getObjectValue(o, k)
     if (typeof nv === 'object') {
       return typeof ov === 'object' ? isEquals(nv, ov) : false
     }
@@ -10,4 +10,13 @@ export const isEquals = (n: Object, o: Object) : boolean => {
     }
   }
   return true
+}
+
+export const getObjectValue = (o: Object, k: string) => {
+  return Object.getOwnPropertyDescriptor(o, k)?.value
+}
+
+export const setObjectValue = (o: Object, k: string, value: any) => {
+  Object.defineProperty(o, k, { value })
+  return o
 }

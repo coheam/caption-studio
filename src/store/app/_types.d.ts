@@ -9,15 +9,14 @@ export interface stateProps {
 
 export interface actionProps {
   type: string
+  param?: string
   stamp: number
 }
 
 export interface currentProps {
+  col: colProps
   row: number
-  col: currentColProps
 }
-
-export type currentColProps = 'start' | 'end' | 'text' | 'memo'
 
 export interface configProps {
   language: string
@@ -32,6 +31,8 @@ export interface colStylesProps {
   padding: number
 }
 
-export interface reducersActionProps extends stateProps {
+export interface payloadProps extends stateProps {
   type: string
 }
+
+export type colProps = 'start' | 'end' | 'text' | 'memo'

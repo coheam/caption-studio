@@ -1,4 +1,4 @@
-import React, { ReactElement, useReducer, useState } from "react"
+import React, { ReactElement, useReducer } from "react"
 type headerProps = {
   children: ReactElement
 }
@@ -17,7 +17,6 @@ const Header = ({ children }: headerProps) => {
       return classNameList.join(' ')
     }
   }
-  console.log('header')
   return (
     <div id="header" className={computed.headerClassName()}>
       <div className="hgroup">

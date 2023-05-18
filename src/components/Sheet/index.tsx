@@ -1,13 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { toCamelCase } from '@/util/stringUtils'
+import { inputDataProps } from './types'
+import { timelineProps } from '@/store/subtitle/_types'
+import { colProps, currentProps } from '@/store/app/_types'
 import { setCurrent, setEdit } from '@/store/app/actions'
 import { storeProps } from "@/store"
-import { currentColProps, currentProps } from '@/store/app/_types'
-import { inputDataProps } from './types'
+import { toCamelCase } from '@/util/StringUtils'
+import { getObjectValue, isEquals } from '@/util/ObjectUtils'
+import { emptyTimeline } from '@/util/TimelineUtils'
+import { deleteTimeline, insertTimeline } from '@/store/subtitle/actions'
 import SheetRow from './SheetRow'
 import SheetInput from './SheetInput'
-import { isEquals } from '@/util/ObjectUtils'
 
 const Sheet = () => {
   const colMoved = {
@@ -20,28 +23,38 @@ const Sheet = () => {
   }
   const dispatch = useDispatch()
 
-  const action = useSelector((state: storeProps) => state.app.action) 
+  const action = useSelector((state: storeProps) => state.app.action)
   const config = useSelector((state: storeProps) => state.app.config)
+  const colStyles = useSelector((state: storeProps) => state.app.colStyles)
   const current = useSelector((state: storeProps) => state.app.current)
   const isEdit = useSelector((state: storeProps) => state.app.edit)
   const timeline = useSelector((state: storeProps) => state.subtitle.timeline)
   const rowHeight = useSelector((state: storeProps) => state.subtitle.state.map(({height}) => height))
+  const bodyHeight = useSelector((state: storeProps) => state.subtitle.height)
+  const stamp = useSelector((state: storeProps) => state.subtitle.stamp)
 
   const headRef = useRef<HTMLDivElement>(null)
   const bodyRef = useRef<HTMLDivElement>(null)
+  const updateRef = useRef(true)
   const [inputData, setInputData] = useState<inputDataProps>({
     top: 0,
     left: 0,
     width: 0,
     height: 0,
-    data: ''
+    data: emptyTimeline(config.format)
   })
   const [scrollLeft, setScrollLeft] = useState(0)
   const [bodyOffset, setBodyOffset] = useState(0)
-  const [bodyHeight, setBodyHeight] = useState(0)
-  const [displayRow, setDisplayRow] = useState<any[]>([])
+  const [displayRow, setDisplayRow] = useState<timelineProps[]>([])
 
-  const format = Object.getOwnPropertyDescriptor(colFormat, config.format)?.value
+  const format = getObjectValue(colFormat, config.format)
+  const computed = {
+    cellStyles : (() => ({
+      '--cell-padding': `${colStyles.padding}px`,
+      '--cell-font-size': `${colStyles.fontSize}px`,
+      '--cell-line-height': `${colStyles.lineHeight}px`
+    }))()
+  }
   const methods = {
     drawRow(scroll: number = 0, size:number = 0) {
       const display: any[] = []
@@ -55,7 +68,7 @@ const Sheet = () => {
         return top > approx
       })
       offset = 0
-      if (bodyOffset !== top || displayRow.length === 0 || displayRow.length === count) {
+      if (updateRef.current || bodyOffset !== top || displayRow.length === 0 || displayRow.length === count) {
         if (timeline){
           while (index < count && offset < size * 3){
             if (timeline[index]) {
@@ -67,49 +80,41 @@ const Sheet = () => {
             offset += rowHeight[index]
             index++
           }
-          setBodyHeight(rowHeight.reduce((a, b) => a + b, 0))
           setBodyOffset(top)
           setDisplayRow(display)
+          updateRef.current = false
         }
       }
     },
-    calcInputData(current: currentProps){
-      const info: inputDataProps = {
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0,
-        data: ''
-      }
-      if (timeline[current.row]){
+    calcInputData(active: currentProps){
+      const info = { ...inputData }
+      if (timeline[active.row]){
         info.top = [...rowHeight].reduce((acc: number,curr: number,i: number, arr:number[]) => {
-          if (i === current.row) {
+          if (i === active.row) {
             arr.splice(1)
             acc -= curr
           }
           return (acc += curr)
         }, 0)
         Array.prototype.map.call(headRef.current?.children, (children: HTMLDivElement) => {
-          if (children.className.includes(current.col)) {
+          if (children.className.includes(active.col)) {
             info.left = children.offsetLeft
             info.width = children.offsetWidth
           }
         })
-        info.height = rowHeight[current.row]
-        if (current.col === 'text' || current.col === 'memo') {
-          info.data = Object.getOwnPropertyDescriptor(timeline[current.row], current.col)?.value
-        }
+        info.height = rowHeight[active.row]
+        info.data = timeline[active.row]
       }
       return info
     },
     colPrev(){
       const moved = { ...current }
-      const colGroup = Object.getOwnPropertyDescriptor(colMoved, config.format)?.value
+      const colGroup = getObjectValue(colMoved, config.format)
       let index = colGroup.indexOf(current.col)
       if (index > 0){
         moved.col = colGroup[index - 1]
       } else if (moved.row > 0){
-        //if (!Sheet.Multiple.State)
+        //if (!Multiple)
         moved.row -= 1
         moved.col = colGroup.pop()
       }
@@ -120,12 +125,12 @@ const Sheet = () => {
     colNext(){
       const moved = { ...current }
       const size = timeline.length - 1
-      const colGroup = Object.getOwnPropertyDescriptor(colMoved, config.format)?.value
+      const colGroup = getObjectValue(colMoved, config.format)
       let index = colGroup.indexOf(current.col)
       if (index < colGroup.length - 1){
         moved.col = colGroup[index + 1]
       } else if (moved.row < size){
-        // if (!Sheet.Multiple.State)
+        // if (!Multiple)
         moved.row++
         moved.col = colGroup.shift()
       }
@@ -142,20 +147,39 @@ const Sheet = () => {
         }
       }
     },
-    rowNext(){
-      if(!isEdit) {
-        const moved = { ...current }
-        if (moved.row < timeline.length - 1) {
-          moved.row += 1
-          dispatch(setCurrent(moved))
-        }
+    rowNext(Insert: boolean = false){
+      const moved = { ...current }
+      if (moved.row < timeline.length - 1) {
+        moved.row += 1
+        dispatch(setCurrent({
+          row: moved.row,
+          col: moved.col as colProps
+        }))
+      } else if (Insert){
+        // if (!Multiple)
+        methods.rowInsert(moved)
       }
+    },
+    rowNextInsert(){
+      methods.rowNext(true)
+    },
+    rowInsert(moved: currentProps = { ...current }, data: timelineProps = emptyTimeline(config.format)){
+      moved.row += 1
+      dispatch(insertTimeline({
+        ...moved,
+        data,
+      }))
+    },
+    rowDelete(){
+      const moved = { ...current }
+      dispatch(deleteTimeline({
+        ...moved
+      }))
     },
     pagePrev(){
       const body: HTMLDivElement | null = bodyRef.current
       const moved = { ...current }
-      if ( body && moved.row > 0 ) {
-        isEdit && dispatch(setEdit(false))
+      if ( body && inputData && moved.row > 0 ) {
         const start = body.scrollTop
         const end = start + body.clientHeight
         let overflow = false
@@ -186,8 +210,7 @@ const Sheet = () => {
       const body: HTMLDivElement | null = bodyRef.current
       const size = timeline.length - 1
       const moved = { ...current }
-      if (body && current.row < size) {
-        isEdit && dispatch(setEdit(false))
+      if (body && inputData && current.row < size) {
         const start = body.scrollTop
         const end = start + body.clientHeight
         let overflow = false
@@ -235,7 +258,7 @@ const Sheet = () => {
       const actionState = action.type.split('/')
       if (actionState[0] === 'sheet') {
         const actionType = toCamelCase(actionState.slice(1).join('_'))
-        Object.getOwnPropertyDescriptor(methods, actionType)?.value()
+        getObjectValue(methods, actionType)(action?.param)
       }
     },
     scrollHandler(e: React.SyntheticEvent) {
@@ -245,15 +268,12 @@ const Sheet = () => {
     colClickHandler(index: number, colName: string){
       const active = {
         row: index,
-        col: colName as currentColProps
-      }
-      if (isEdit) {
-        dispatch(setEdit(false))
+        col: colName as colProps
       }
       if (!isEquals(current, active)){
         dispatch(setCurrent({
           row: index,
-          col: colName as currentColProps
+          col: colName as colProps
         }))
       }
     },
@@ -273,19 +293,20 @@ const Sheet = () => {
     }
   }
   useEffect(()=>{
+    updateRef.current = true
     methods.update()
     return () => {
       console.log('distory')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(timeline)])
+  }, [stamp])
   useEffect(()=>{
     methods.callMove()
     return () => {
       console.log('distory')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [JSON.stringify(current)])
+  }, [JSON.stringify(current), JSON.stringify(inputData)])
   useEffect(()=>{
     methods.callAction()
     return () => {
@@ -293,9 +314,10 @@ const Sheet = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   },[action.stamp])
+  
   return (
     <>
-    <div id="sheet" className="srt">
+    <div id="sheet" className="srt" style={computed.cellStyles}>
       <div className="sheet-head" style={{left: `-${scrollLeft}px`}}>
         <div className="sheet-panel tcp">
           <div className="sheet-row" ref={headRef}>
@@ -330,12 +352,12 @@ const Sheet = () => {
           <div className="sheet-panel" style={{}}>
             {displayRow.map((rowData, index) => {
               const seq = rowData.index ?? index
+              const end = rowData.end ?? timeline[seq + 1]?.start ?? 0
               return (
                 <SheetRow key={seq}
                   current={current}
                   format={format}
-                  rowData={{ ...rowData, index: seq }}
-                  height={rowHeight[seq]}
+                  rowData={{ ...rowData, end, index: seq }}
                   click={methods.colClickHandler}
                   dblclick={methods.colDblClickHandler}
                 ></SheetRow>

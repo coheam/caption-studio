@@ -2,23 +2,19 @@ import type { AppProps } from 'next/app'
 import type {} from 'redux-thunk/extend-redux'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { wrapper } from '@/store'
-import { injectTimeline } from '@/store/subtitle/actions'
-import { timelineProps } from '@/store/subtitle/_types'
+import { storeProps, wrapper } from '@/store'
+import { injectSubtitle } from '@/store/subtitle/actions'
+import Storage from '@/util/StorageUtil'
 import '@styles/common.scss'
+import { emptyTimeline } from '@/util/TimelineUtils'
 
 const App = ({ Component, pageProps }: AppProps) => {
-  const store = useSelector(state => state)
+  const format = useSelector((state: storeProps) => state.app.config.format)
   const dispatch = useDispatch()
   useEffect(()=>{
-    const timelines = ((): timelineProps[] => {
-      const timelines = window.localStorage.getItem('SUBTITLE_TEMP')
-      return timelines ?
-        JSON.parse(timelines) :
-        [ {start: 0, end: 0, text: '', memo: '' } ]
-    })()
-    dispatch(injectTimeline(timelines))
+    const timelines = Storage?.get('SUBTITLE_TEMP') ?? [ emptyTimeline(format) ]
 
+    dispatch(injectSubtitle(timelines))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return <Component {...pageProps} />

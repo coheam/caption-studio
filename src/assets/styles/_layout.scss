@@ -1,4 +1,5 @@
-@charset "utf-8"; /*
+@charset "utf-8";
+/*
 'D2 coding'
 400, 700
 'Nanum Gothic'
@@ -1116,7 +1117,9 @@ html {
 }
 
 #sheet .cell {
-    padding: 3px;
+    padding: var(--cell-padding);
+    font-size: var(--cell-font-size);
+    line-height: var(--cell-line-height);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1152,11 +1155,22 @@ html {
     top: -100%;
     left: -100%;
     z-index: 1;
+    &:not(.on) {
+        margin:-1px;
+        padding:0;
+        width:1px;
+        height:1px;
+        border:0;
+        clip:rect(0 0 0 0);
+        overflow:hidden;
+    }
 }
 
 #sheet .sheet-trigger .sheet-input {
-    padding: 3px;
+    padding: var(--cell-padding);
     width: 100%;
+    font-size: var(--cell-font-size);
+    line-height: var(--cell-line-height);
     border: 1px solid #000;
     background-color: #fff;
     white-space: nowrap;

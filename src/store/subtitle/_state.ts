@@ -2,7 +2,9 @@ import type { subtitleStateProps } from './_types'
 const getDefaultState = (): subtitleStateProps => {
   return {
     timeline: [],
-    state: []
+    state: [],
+    height: 0,
+    stamp: 0
   }
 }
 

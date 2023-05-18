@@ -6,13 +6,12 @@ export interface inputDataProps {
   left: number
   width: number
   height: number
-  data: string
+  data: timelineProps
 }
 export interface sheetRowProps {
   format: string[]
   current: currentProps
   rowData : rowDataProps
-  height: number
   click: Function
   dblclick: Function
 }

@@ -1,4 +1,4 @@
-import { reducersActionProps } from './_types';
+import { payloadProps } from './_types';
 import { 
   SET_ACTION,
   SET_CURRENT,
@@ -9,7 +9,7 @@ import {
 } from './_namespace'
 import initialState from './_state'
 
-const Reducers = (state = initialState, action: reducersActionProps) => {
+const Reducers = (state = initialState, action: payloadProps) => {
   const store = { ...state }
   switch (action.type) {
     case SET_ACTION:
