@@ -11,6 +11,7 @@ import { emptyTimeline } from '@/util/TimelineUtils'
 import { deleteTimeline, insertTimeline } from '@/store/subtitle/actions'
 import SheetRow from './SheetRow'
 import SheetInput from './SheetInput'
+import { syncDispatch } from '@/mixins'
 
 const Sheet = () => {
   const colMoved = {
@@ -152,6 +153,7 @@ const Sheet = () => {
       if (moved.row < timeline.length - 1) {
         moved.row += 1
         dispatch(setCurrent({
+          tab: moved.tab,
           row: moved.row,
           col: moved.col as colProps
         }))
@@ -161,7 +163,9 @@ const Sheet = () => {
       }
     },
     rowNextInsert(){
-      methods.rowNext(true)
+      syncDispatch(() => setEdit(false), dispatch).then(() => {
+        methods.rowNext(true)
+      })
     },
     rowInsert(moved: currentProps = { ...current }, data: timelineProps = emptyTimeline(config.format)){
       moved.row += 1
@@ -171,10 +175,7 @@ const Sheet = () => {
       }))
     },
     rowDelete(){
-      const moved = { ...current }
-      dispatch(deleteTimeline({
-        ...moved
-      }))
+      dispatch(deleteTimeline(current.row))
     },
     pagePrev(){
       const body: HTMLDivElement | null = bodyRef.current
@@ -271,10 +272,13 @@ const Sheet = () => {
         col: colName as colProps
       }
       if (!isEquals(current, active)){
-        dispatch(setCurrent({
-          row: index,
-          col: colName as colProps
-        }))
+        syncDispatch(() => setEdit(false), dispatch).then(() => {
+          dispatch(setCurrent({
+            tab: current.tab,
+            row: index,
+            col: colName as colProps
+          }))
+        })
       }
     },
     colDblClickHandler(){

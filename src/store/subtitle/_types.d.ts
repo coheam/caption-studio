@@ -13,6 +13,11 @@ export interface updateTimelineProps extends currentProps {
   data?: timelineProps
 }
 
+export interface deleteTimelineProps {
+  app?: appStateProps
+  index: number
+}
+
 export interface subtitleStateProps {
   timeline: timelineProps[]
   state: stateProps[]

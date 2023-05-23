@@ -1,6 +1,6 @@
-import { stateProps } from './_types'
+import { appStateProps } from './_types'
 
-const getDefaultState = (fontSize = 14): stateProps => {
+const getDefaultState = (fontSize = 14): appStateProps => {
   let lineHeight: number = Math.floor(fontSize * 1.65)
   let padding: number = Math.floor(fontSize / 4.5)
   return {
@@ -21,10 +21,16 @@ const getDefaultState = (fontSize = 14): stateProps => {
       padding: padding,
     },
     current: {
+      tab: 0,
       row: 0,
       col: 'text'
     },
-    edit: false
+    edit: false,
+    history: {
+      index: [],
+      logs: [],
+      current: []
+    }
   }
 }
 

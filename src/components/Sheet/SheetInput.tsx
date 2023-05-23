@@ -2,10 +2,11 @@ import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { storeProps } from '@/store'
 import { inputDataProps } from './types'
+import { setEdit } from '@/store/app/actions'
 import { updateTimeline } from '@/store/subtitle/actions'
+import { syncDispatch } from '@/mixins'
 import { timelineProps, updateTimelineProps } from '@/store/subtitle/_types'
 import { getObjectValue, setObjectValue } from '@/util/ObjectUtils'
-import { setEdit, syncDispatch } from '@/store/app/actions'
 import { toCamelCase } from '@/util/StringUtils'
 import ExecCommand from '@/util/ExecUtils'
 
@@ -108,14 +109,7 @@ const SheetInput = (active: inputDataProps) => {
     },
   }
   useEffect(() => {
-    if (isEdit && isChange.current && activeRef.current) {
-        isChange.current = false
-        syncDispatch(() => updateTimeline(activeRef.current), dispatch).then(() => {
-          methods.changeActive()
-        })
-    } else {
-      methods.changeActive()
-    }
+    methods.changeActive()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(active)])
   useEffect(()=>{

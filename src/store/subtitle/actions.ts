@@ -6,7 +6,7 @@ import {
   UPDATE_TIMELINE,
   DELETE_TIMELINE,
 } from './_namespace'
-import { setCurrent, syncDispatch } from '../app/actions'
+import { setCurrent, setHistory } from '../app/actions'
 
 export const injectSubtitle = ( timeline: timelineProps[] ) => ( dispatch: Function, getState: Function ) => {
   dispatch({
@@ -16,33 +16,62 @@ export const injectSubtitle = ( timeline: timelineProps[] ) => ( dispatch: Funct
   })
 }
 
-export const insertTimeline = ( props: updateTimelineProps ) => ( dispatch: Function, getState: Function ) => {
+export const insertTimeline = ( { tab, row, col, data }: updateTimelineProps, history: boolean = false ) => ( dispatch: Function, getState: Function ) => {
+  const { app } = getState()
+  if (!history){
+    dispatch(setHistory({
+      action: 'insert',
+      index: row,
+      forward: data as unknown as timelineProps,
+      current: app.current
+    }))
+  }
   dispatch({
     type: INSERT_TIMELINE,
-    app: getState().app,
-    ...props
+    app: app,
+    row,
+    data
   })
-  dispatch(setCurrent({
-    row: props.row,
-    col: props.col
-  }))
+  dispatch(setCurrent({ tab, row, col }))
 }
-export const updateTimeline = ( props: updateTimelineProps ) => ( dispatch: Function, getState: Function ) => {
+export const updateTimeline = ( { row, col, data }: updateTimelineProps, history: boolean = false ) => ( dispatch: Function, getState: Function ) => {
+  const { app, subtitle: { timeline } } = getState()
+  if (!history){
+    dispatch(setHistory({
+      action: 'update',
+      index: row,
+      back: timeline[row],
+      forward: data as unknown as timelineProps,
+      current: app.current
+    }))
+  }
   dispatch({
     type: UPDATE_TIMELINE,
-    app: getState().app,
-    ...props
+    app: app,
+    row,
+    data
   })
+  console.log(row, col, data, history)
 }
-export const deleteTimeline = (props: updateTimelineProps) => ( dispatch: Function, getState: Function ) => {
+export const deleteTimeline = (index: number, current?: currentProps, history: boolean = false) => ( dispatch: Function, getState: Function ) => {
+  const { app, subtitle: { timeline } } = getState()
+  if (!history){
+    dispatch(setHistory({
+      action: 'delete',
+      index,
+      back: timeline[index],
+      current: current ?? app.current
+    }))
+  }
   dispatch({
     type: DELETE_TIMELINE,
-    app: getState().app,
-    ...props
+    app,
+    index
   })
-  const row = props.row - 1
-  dispatch(setCurrent({
+  const row = index - 1
+  dispatch(setCurrent(current ?? {
+    tab: app.current.tab,
     row: row > 0 ? row : 0,
-    col: props.col
+    col: app.current.col
   }))
 }

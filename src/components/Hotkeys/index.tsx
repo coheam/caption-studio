@@ -2,9 +2,10 @@ import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { mapKey } from './parseHotkeys'
 import { storeProps } from '@/store'
-import { setAction, setEdit } from '@/store/app/actions'
+import { backHistory, forwardHistory, setAction, setEdit } from '@/store/app/actions'
 import { getObjectValue } from '@/util/ObjectUtils'
 import Storage from '@/util/StorageUtil'
+import { syncDispatch } from '@/mixins'
 
 const Hotkeys = () => {
 	const dispatch = useDispatch()
@@ -165,14 +166,15 @@ const Hotkeys = () => {
 				e.preventDefault()
 				if (!isEditRef.current){
 					// if (!Layer)
-					// dispatch(setHistory('undo'))
+					dispatch(backHistory())
 				}
 			}
 		}, {
 			name : 'redo', mask : 'ctrl+y', type : 'hold', handler(e: KeyboardEvent){
+				e.preventDefault()
 				if (!isEditRef.current){
 					// if (!Layer)
-					// dispatch(setHistory('redo'))
+					dispatch(forwardHistory())
 				}
 			}
 		}, {
