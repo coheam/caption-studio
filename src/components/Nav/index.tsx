@@ -1,28 +1,35 @@
-import useTranslation from "next-translate/useTranslation"
+import { useDispatch } from "react-redux"
 import Link from "next/link"
+import useTranslation from "next-translate/useTranslation"
+import { initialSubtitle } from "@/store/subtitle/actions"
 
 type menuItem = {
   id: string
   text: string
   type: "action" | "dialog" | "link"
-  target: string
+  icon: string
+  target?: string
+  action?: Function
 }
 type sling = {
   menu: menuItem[]
 }
 
-const sling = {
-  "menu" : [
-    { "id": "new-file", "text": "new-file", "type": "action", "target": "" },
-    { "id": "import-video", "text": "import-video", "type": "dialog", "target": "import-video" },
-    { "id": "import-subtitle", "text": "import-subtitle", "type": "dialog", "target": "import-subtitle" },
-    { "id": "export-subtitle", "text": "export-subtitle", "type": "dialog", "target": "export-subtitle" },
-    { "id": "cs-setting", "text": "cs-setting", "type": "dialog", "target": "cs-setting" },
-    { "id": "cs-manual", "text": "cs-manual", "type": "link", "target": "/manual" }
-  ]
-}
 
 const Nav = () => {
+  const dispatch = useDispatch()
+  const sling = {
+    "menu" : [
+      { id: "new-file", text: "new-file", type: "action", target: "", icon: "draft", action: () => {
+        dispatch(initialSubtitle())
+      } },
+      { id: "import-video", text: "import-video", type: "action", icon: "video_call", action: () => {} },
+      { id: "import-subtitle", text: "import-subtitle", type: "action", icon: "subtitles", action: () => {} },
+      { id: "export-subtitle", text: "export-subtitle", type: "action", icon: "download", action: () => {} },
+      { id: "cs-setting", text: "cs-setting", type: "action", icon: "settings", action: () => {} },
+      { id: "cs-manual", text: "cs-manual", type: "link", icon: "help_center", target: "/manual" }
+    ]
+  }
   const { menu } = sling
   const { t } = useTranslation("app")
   return (
@@ -34,17 +41,14 @@ const Nav = () => {
             return (
               <li key={item.id}>
                 {(item.type === 'action') && (
-                  <Link href="/" className="anchor">
+                  <button type="button" className="anchor" onClick={item.action}>
+                    <span className="icon material-symbols-rounded">{item.icon}</span>
                     <span className="text">{t(item.text)}</span>
-                  </Link>
-                )}
-                {(item.type === 'dialog') && (
-                  <a href="#" className="anchor">
-                    <span className="text">{t(item.text)}</span>
-                  </a>
+                  </button>
                 )}
                 {(item.type === 'link') && (
-                  <Link href={item.target} className="anchor">
+                  <Link href={item.target as string} className="anchor">
+                    <span className="icon material-symbols-rounded">{item.icon}</span>
                     <span className="text">{t(item.text)}</span>
                   </Link>
                 )}

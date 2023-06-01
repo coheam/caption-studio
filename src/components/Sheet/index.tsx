@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { inputDataProps } from './types'
 import { timelineProps } from '@/store/subtitle/_types'
-import { colProps, currentProps } from '@/store/app/_types'
+import { colType, currentProps } from '@/store/app/_types'
 import { setCurrent, setEdit } from '@/store/app/actions'
 import { storeProps } from "@/store"
 import { toCamelCase } from '@/util/StringUtils'
@@ -12,6 +12,7 @@ import { deleteTimeline, insertTimeline } from '@/store/subtitle/actions'
 import SheetRow from './SheetRow'
 import SheetInput from './SheetInput'
 import { syncDispatch } from '@/mixins'
+import cloneDeep from 'lodash.clonedeep'
 
 const Sheet = () => {
   const colMoved = {
@@ -88,7 +89,7 @@ const Sheet = () => {
       }
     },
     calcInputData(active: currentProps){
-      const info = { ...inputData }
+      const info = cloneDeep(inputData)
       if (timeline[active.row]){
         info.top = [...rowHeight].reduce((acc: number,curr: number,i: number, arr:number[]) => {
           if (i === active.row) {
@@ -109,7 +110,7 @@ const Sheet = () => {
       return info
     },
     colPrev(){
-      const moved = { ...current }
+      const moved = cloneDeep(current)
       const colGroup = getObjectValue(colMoved, config.format)
       let index = colGroup.indexOf(current.col)
       if (index > 0){
@@ -124,7 +125,7 @@ const Sheet = () => {
       }
     },
     colNext(){
-      const moved = { ...current }
+      const moved = cloneDeep(current)
       const size = timeline.length - 1
       const colGroup = getObjectValue(colMoved, config.format)
       let index = colGroup.indexOf(current.col)
@@ -141,7 +142,7 @@ const Sheet = () => {
     },
     rowPrev(){
       if(!isEdit) {
-        const moved = { ...current }
+        const moved = cloneDeep(current)
         if (moved.row > 0) {
           moved.row -= 1
           dispatch(setCurrent(moved))
@@ -149,13 +150,13 @@ const Sheet = () => {
       }
     },
     rowNext(Insert: boolean = false){
-      const moved = { ...current }
+      const moved = cloneDeep(current)
       if (moved.row < timeline.length - 1) {
         moved.row += 1
         dispatch(setCurrent({
           tab: moved.tab,
           row: moved.row,
-          col: moved.col as colProps
+          col: moved.col as colType
         }))
       } else if (Insert){
         // if (!Multiple)
@@ -167,7 +168,7 @@ const Sheet = () => {
         methods.rowNext(true)
       })
     },
-    rowInsert(moved: currentProps = { ...current }, data: timelineProps = emptyTimeline(config.format)){
+    rowInsert(moved: currentProps = cloneDeep(current), data: timelineProps = emptyTimeline(config.format)){
       moved.row += 1
       dispatch(insertTimeline({
         ...moved,
@@ -179,7 +180,7 @@ const Sheet = () => {
     },
     pagePrev(){
       const body: HTMLDivElement | null = bodyRef.current
-      const moved = { ...current }
+      const moved = cloneDeep(current)
       if ( body && inputData && moved.row > 0 ) {
         const start = body.scrollTop
         const end = start + body.clientHeight
@@ -210,7 +211,7 @@ const Sheet = () => {
     pageNext(){
       const body: HTMLDivElement | null = bodyRef.current
       const size = timeline.length - 1
-      const moved = { ...current }
+      const moved = cloneDeep(current)
       if (body && inputData && current.row < size) {
         const start = body.scrollTop
         const end = start + body.clientHeight
@@ -269,14 +270,14 @@ const Sheet = () => {
     colClickHandler(index: number, colName: string){
       const active = {
         row: index,
-        col: colName as colProps
+        col: colName as colType
       }
       if (!isEquals(current, active)){
         syncDispatch(() => setEdit(false), dispatch).then(() => {
           dispatch(setCurrent({
             tab: current.tab,
             row: index,
-            col: colName as colProps
+            col: colName as colType
           }))
         })
       }

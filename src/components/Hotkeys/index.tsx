@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { mapKey } from './parseHotkeys'
+import { pressedKey } from './parseHotkeys'
 import { storeProps } from '@/store'
 import { backHistory, forwardHistory, setAction, setEdit } from '@/store/app/actions'
 import { getObjectValue } from '@/util/ObjectUtils'
@@ -452,8 +452,9 @@ const Hotkeys = () => {
 			methods.run('up', e)
 		},
 		isPressed(pressedKeys: Set<string>, mask: string, splitKey: string){
-  		const hotkeyArray = Array.isArray(mask) ? mask : mask.split(splitKey)
-			return hotkeyArray.every((hotkey) => pressedKeys.has(hotkey.trim().toLowerCase()))
+  		const hotkeyArray = (Array.isArray(mask) ? mask : mask.split(splitKey)).sort().join('+')
+			const pressedKey = Array.from(pressedKeys).sort().join('+')
+			return hotkeyArray === pressedKey
 		},
 		isInput(target: HTMLInputElement){
 			const name = target.tagName.toLowerCase()
@@ -472,21 +473,7 @@ const Hotkeys = () => {
 				})
 			]
 
-			const key = mapKey(e.key)
-			const code = mapKey(e.code)
-			const pressedKeys: Set<string> = new Set<string>()
-
-			e.metaKey && pressedKeys.add('meta')
-			e.ctrlKey && pressedKeys.add('ctrl')
-			e.altKey && pressedKeys.add('alt')
-			e.shiftKey && pressedKeys.add('shift')
-			if (key === 'process') {
-				pressedKeys.add(code)
-			} else {
-				pressedKeys.add(key)
-			}
-
-			const shortcut = shortcuts.find(shortcut => shortcut.type == type && methods.isPressed(pressedKeys, shortcut.mask,'+'))
+			const shortcut = shortcuts.find(shortcut => shortcut.type == type && methods.isPressed(pressedKey(e), shortcut.mask,'+'))
 			
 			if (!e.isComposing && shortcut) {
 				shortcut.handler(e, dispatch)

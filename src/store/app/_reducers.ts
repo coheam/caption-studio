@@ -12,6 +12,7 @@ import {
 } from './_namespace'
 import initialState from './_state'
 import { getObjectValue } from '@/util/ObjectUtils'
+import cloneDeep from 'lodash.clonedeep'
 
 const mutations = {
   [SET_ACTION]: ({ action }: payloadProps, store: appStateProps): appStateProps => {
@@ -75,7 +76,7 @@ const mutations = {
 const Reducers = (appState = initialState, payload: payloadProps) => {
   const mutation = getObjectValue(mutations, payload.type)
   if (typeof mutation === 'function') {
-    const state = mutation(payload, { ...appState })
+    const state = mutation(payload, cloneDeep(appState))
     return state
   } else {
     return appState

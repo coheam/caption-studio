@@ -30,7 +30,8 @@ const getDefaultState = (fontSize = 14): appStateProps => {
       index: [],
       logs: [],
       current: []
-    }
+    },
+    colors: ['#ff0000','#ff00ff','#aa00ff','#0000ff','#00ffff','#00ff00','#ffff00','#ffaa00']
   }
 }
 

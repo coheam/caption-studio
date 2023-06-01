@@ -253,8 +253,9 @@ html {
 
 #nav {
     display: none;
-    position: fixed;
+    position: absolute;
     top: 0;
+    left: 100%;
     z-index: 110;
 }
 
@@ -279,17 +280,27 @@ html {
     background-color: #333;
 }
 
-#nav .util a {
+#nav .util .anchor {
     display: block;
-    padding: 8px 0;
+    padding: 8px;
+    width: 100%;
     font-size: 14px;
     line-height: 24px;
+    text-align: left;
     color: #fff;
+    &:active {
+        padding: 9px 8px 7px;
+    }
+    .icon {
+        margin-right: 8px;
+        vertical-align: top;
+        font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
+    }
+    .text {
+        vertical-align: top;
+    }
 }
 
-#nav .util a:active {
-    padding: 9px 0 7px;
-}
 
 #nav .util .mt {
     width: 40px;
@@ -574,12 +585,47 @@ html {
     height: 40px;
     background-color: #eee;
     z-index: 90;
-}
-
-#controller:after {
-    content: '';
-    display: block;
-    clear: both;
+    &::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+    .btn-control {
+        display: block;
+        padding: 3px 0;
+        width: 34px;
+        height: 30px;
+        font-family: 'Droid Serif';
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 24px;
+        color: #444;
+        text-align: center;
+        border-radius: 3px;
+        &:not(.disabled):active {
+            padding: 4px 0 2px;
+            background-color: rgba(0,0,0,.1);
+        }
+        &.disabled {
+            color: #ccc;
+            &:active {
+                padding: 3px 0;
+            }
+        }
+        &.on {
+            padding: 1px 0;
+            border: 2px solid #8cf;
+            background-color: #fff;
+            &:active {
+                padding: 2px 0 0;
+            }
+        }
+        &.slim-icon {
+            .material-symbols-rounded {
+                font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            }
+        }
+    }
 }
 
 #controller a {
@@ -740,31 +786,12 @@ html {
     width: 100%;
 }
 
-#font-bold span {
-    display: block;
-    font-size: 16px;
-    line-height: 24px;
-}
-
-#font-underline {
-    text-decoration: underline;
-}
 
 #font-underline span {
-    display: block;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 24px;
 }
 
-#font-italic {
-    font-style: italic;
-}
-
-#font-italic span {
-    display: block;
-    font-size: 16px;
-    line-height: 24px;
-}
 
 .mt.icon-palette {
     transform: rotate(30deg);
@@ -796,20 +823,15 @@ html {
 #font-color-list .color-panel {
     float: left;
     width: 34px;
-}
-
-#font-color-list .color-panel a {
-    padding: 3px 5px;
-    width: 100%;
-    font-size: 14px;
-    font-weight: 400;
-    text-align: left;
-    white-space: nowrap;
-    border-radius: 3px;
-}
-
-#font-color-list .color-panel a:hover {
-    // color: #;
+    .btn-color-chip {
+        padding: 3px 5px;
+        width: 100%;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: left;
+        white-space: nowrap;
+        border-radius: 3px;
+    }
 }
 
 #font-color-list .color-panel a:active {

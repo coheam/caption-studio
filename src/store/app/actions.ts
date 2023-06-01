@@ -11,7 +11,6 @@ import {
   SET_HISTORY,
   BACK_HISTORY,
   FORWARD_HISTORY,
-  GO_HISTORY,
   CLEAR_HISTORY
 } from './_namespace'
 
@@ -131,13 +130,7 @@ export const forwardHistory = () => ( dispatch: Function, getState: Function ) =
   }
 }
 
-export const goHistory = ( ready: boolean ) => {
-  return {
-    type: GO_HISTORY,
-  }
-}
-
-export const clearHistory = ( ready: boolean ) => {
+export const clearHistory = () => {
   return {
     type: CLEAR_HISTORY,
   }

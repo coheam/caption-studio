@@ -74,31 +74,22 @@ const SheetInput = (active: inputDataProps) => {
         }
       }
     },
-    clip(attr: string, value?: string){
+    clip(prop: string){
+      const [attr, value] = prop.split('/')
       if (isEdit) {
-        methods.execCmd(attr, value)
+        ExecCommand(attr, value)
       } else {
         isClip.current = true
         dispatch(setEdit(true))
         methods.onEdit()
         if (attr){
-          methods.execCmd(attr, value)
+          ExecCommand(attr, value)
           setTimeout(() => {
             isClip.current = false
             dispatch(setEdit(false))
           })
         }
       }
-    },
-    execCmd(attr: string, value?: string){
-      if (attr === 'resetColor'){
-        attr = 'removeFormat'
-        value = 'foreColor'
-      } else if (attr.indexOf('color') == 0){
-        attr = 'foreColor'
-        // value = Number(attr.replace('color',''))
-      }
-      ExecCommand(attr, value)
     },
     callAction(){
       const actionState = action.type.split('/')

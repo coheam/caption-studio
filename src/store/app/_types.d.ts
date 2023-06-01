@@ -8,6 +8,7 @@ export interface appStateProps {
   current: currentProps
   edit: boolean
   history: historyProps
+  colors: colorType[]
 }
 
 export interface actionProps {
@@ -32,7 +33,7 @@ export interface colStylesProps {
 export interface currentProps {
   tab: number
   row: number
-  col: colProps
+  col: colType
 }
 
 export interface historyProps {
@@ -42,7 +43,7 @@ export interface historyProps {
 }
 
 export interface logProps {
-  action: logActionProps
+  action: logActionType
   index: number
   back?: timelineProps
   forward?: timelineProps
@@ -64,5 +65,9 @@ export interface payloadProps extends appStateProps {
   type: string
 }
 
-export type colProps = 'start' | 'end' | 'text' | 'memo'
-export type logActionProps = 'insert' | 'update' | 'delete'
+export type colType = 'start' | 'end' | 'text' | 'memo'
+export type logActionType = 'insert' | 'update' | 'delete'
+export type colorType = RGB | RGBA | HEX
+export type RGB = `rgb(${number}, ${number}, ${number})`
+export type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`
+export type HEX = `#${string}`

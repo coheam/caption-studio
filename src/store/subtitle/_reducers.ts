@@ -14,6 +14,7 @@ import {
   UPDATE_TIMELINE,
   DELETE_TIMELINE
 } from './_namespace'
+import cloneDeep from 'lodash.clonedeep'
 import { colStylesProps } from '@/store/app/_types'
 import { getObjectValue, setObjectValue } from '@/util/ObjectUtils'
 import Storage from '@/util/StorageUtil';
@@ -50,12 +51,12 @@ const mutations = {
     let prevTimeline: timelineProps
     let nextTimeline: timelineProps
     if (row < size) {
-      nextTimeline = { ...store.timeline[row] }
+      nextTimeline = cloneDeep(store.timeline[row])
       if (format === 'srt' && data.start === 0) data.start = nextTimeline.end as unknown as number
       if (format === 'srt' && data.end === 0) data.end = nextTimeline.end
       if (format === 'smi' && data.start === 0) data.start = nextTimeline.start
     } else if (prev > -1) {
-      prevTimeline = { ...store.timeline[prev] }
+      prevTimeline = cloneDeep(store.timeline[prev])
       if (format === 'srt' && data.start === 0) data.start = prevTimeline.end as unknown as number
       if (format === 'srt' && data.end === 0) data.end = prevTimeline.end
       if (format === 'smi' && data.start === 0) data.start = prevTimeline.start
@@ -99,7 +100,7 @@ const mutations = {
 const Reducers = (subtitleState = initialState, payload: payloadProps) => {
   const mutation = getObjectValue(mutations, payload.type)
   if (typeof mutation === 'function') {
-    const result = mutation(payload, { ...subtitleState })
+    const result = mutation(payload, cloneDeep(subtitleState))
     Storage?.set('SUBTITLE_TEMP', result.timeline)
     return result
   } else {

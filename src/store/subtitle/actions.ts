@@ -4,9 +4,10 @@ import {
   INJECT_TIMELINE,
   INSERT_TIMELINE,
   UPDATE_TIMELINE,
-  DELETE_TIMELINE,
+  DELETE_TIMELINE
 } from './_namespace'
-import { setCurrent, setHistory } from '../app/actions'
+import { clearHistory, setCurrent, setHistory } from '../app/actions'
+import { emptyTimeline } from '@/util/TimelineUtils'
 
 export const injectSubtitle = ( timeline: timelineProps[] ) => ( dispatch: Function, getState: Function ) => {
   dispatch({
@@ -15,7 +16,15 @@ export const injectSubtitle = ( timeline: timelineProps[] ) => ( dispatch: Funct
     timeline
   })
 }
-
+export const initialSubtitle = () => ( dispatch: Function, getState: Function ) => {
+  const { app } = getState()
+  dispatch({
+    type: INJECT_TIMELINE,
+    app,
+    timeline: [ emptyTimeline(app.config.format) ]
+  })
+  dispatch(clearHistory())
+}
 export const insertTimeline = ( { tab, row, col, data }: updateTimelineProps, history: boolean = false ) => ( dispatch: Function, getState: Function ) => {
   const { app } = getState()
   if (!history){
