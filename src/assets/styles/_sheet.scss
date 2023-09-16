@@ -1,0 +1,137 @@
+@layer utilities {
+  .sheet {
+    @apply flex flex-col w-full h-full border-t border-neutral-300 bg-white overflow-auto;
+    &__head {
+      @apply sticky top-0 min-w-full whitespace-nowrap z-[10];
+    }
+    &__body {
+      @apply relative grow-0 shrink-0;
+    }
+    &__footer {
+      @apply flex flex-row items-center px-[.5em] border-t border-neutral-800 bg-neutral-800 gap-x-[1px];
+    }
+    &__panel {
+      @apply sticky top-0 flex flex-col min-w-full border-neutral-300;
+    }
+    &__row {
+      @apply flex flex-row min-w-full bg-white;
+      &--error {
+        @apply sheet__row;
+        @apply bg-red-50;
+      }
+      &--box {
+        @apply flex flex-col min-w-full;
+      }
+    }
+    &__col {
+      @apply flex border-r border-b border-neutral-300 bg-[inherit];
+      &:last-child {
+        @apply border-r-0;
+      }
+      &--index {
+        @apply sticky left-0 sheet__col grow-0 shrink-0 text-right z-[3];
+      }
+      &--start {
+        @apply sheet__col grow-0 shrink-0 text-right;
+      }
+      &--end {
+        @apply sheet__col grow-0 shrink-0 text-right;
+      }
+      &--dur {
+        @apply sheet__col grow-0 shrink-0 text-right;
+      }
+      &--text {
+        @apply sheet__col grow-0 shrink-0;
+      }
+      &--memo {
+        @apply sheet__col flex-auto;
+        .sheet__cell {
+          @apply min-h-full line-clamp-1;
+        }
+        &.sheet__current {
+          .sheet__cell {
+            @apply absolute min-h-full bg-[inherit] outline outline-1 outline-violet-600;
+          }
+        }
+      }
+      &--find {
+        @apply sheet__current;
+        &:not(.sheet__current) {
+          @apply bg-amber-50 z-[1] before:border-amber-400;
+          .sheet__cell {
+            @apply outline-none;
+          }
+        }
+      }
+    }
+    &__cell {
+      @apply w-full select-none pointer-events-none;
+    }
+    &__tab {
+      @apply relative flex flex-row items-center justify-center font-[600] text-neutral-500 bg-white/[.05] cursor-pointer;
+      &--text {
+        @apply -mt-[1px] pt-[.3em] pb-[.25em] pr-[1.75em] pl-[.75em] border-t border-neutral-800 select-none;
+      }
+      &--delete {
+        @apply flex items-center justify-center absolute bottom-[.3em] right-[.25em] w-[1.4em] h-[1.4em] rounded-full opacity-0;
+        &:hover {
+          @apply bg-neutral-400/[.1]
+        }
+      }
+      &--add {
+        @apply flex items-center justify-center w-[1em] h-[1em] mt-[1px] ml-[.125em] text-[1.625em] text-neutral-500 rounded-[.25em];
+        &:hover {
+          @apply bg-neutral-400/[.1]
+        }
+      }
+      &:not([aria-current="true"]):hover {
+        .sheet__tab {
+          &--delete {
+            @apply text-neutral-400 opacity-100;
+          }
+        }
+      }
+      &[aria-current="true"] {
+        @apply text-violet-800;
+        .sheet__tab {
+          &--text {
+            @apply bg-white border-violet-600;
+          }
+          &--delete {
+            @apply opacity-100;
+            &:hover {
+              @apply bg-neutral-900/[.15]
+            }
+          }
+        }
+      }
+    }
+    &__edit {
+      @apply absolute;
+      &__input {
+        @apply bg-white;
+        &:not(.set-editable) {
+          @apply sr-only;
+        }
+      }
+      &.set-editable {
+        @apply z-[2];
+      }
+    }
+    &__current {
+      @apply relative bg-white before:absolute before:-inset-[1px] before:border-[1px] before:border-violet-700 before:rounded-[0] z-[2];
+      &:last-child {
+        @apply before:right-0;
+      }
+      &--head {
+        &:last-child {
+          @apply before:right-0;
+        }
+        @apply relative before:absolute before:-inset-[1px] before:border-b-[1px] before:border-violet-800;
+      }
+      &--index {
+        @apply before:absolute before:-inset-[1px] before:border-r-[1px] before:border-violet-800;
+      }
+    }
+  }
+}

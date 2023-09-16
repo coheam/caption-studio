@@ -1,0 +1,35 @@
+@layer utilities {
+
+  .button {
+    @apply flex items-center justify-center h-[32px] text-[14px]/none text-neutral-600 rounded-[6px];
+    &__group {
+      @apply flex flex-row gap-x-[20px];
+    }
+    &__text {
+      @apply button;
+      @apply py-[9px] font-bold;
+      &:not(:disabled):hover {
+        @apply underline underline-offset-[3px];
+      }
+      &:disabled {
+        @apply text-neutral-200;
+      }
+      &--primary {
+        @apply button__text;
+        @apply text-violet-600;
+      }
+      &--cancel {
+        @apply button__text;
+        @apply text-neutral-400;
+      }
+    }
+    &__normal {
+      @apply button;
+      &--outline {
+        @apply button__normal;
+        @apply px-[8px] font-medium border border-neutral-300;
+      }
+    }
+    
+  }
+}

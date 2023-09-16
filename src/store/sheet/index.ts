@@ -1,6 +1,6 @@
 import * as state from './state'
 
-const app = {
+const sheet = {
   state,
 }
-export default app
+export default sheet

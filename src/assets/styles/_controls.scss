@@ -1,0 +1,123 @@
+@layer utilities {
+  .controls {
+    @apply relative flex flex-row items-center min-w-[300px] p-[5px] bg-neutral-200 gap-x-[5px];
+    &__button {
+      @apply flex items-center justify-center min-w-[34px] h-[30px] px-[5px] text-[24px] text-neutral-800 rounded-[3px];
+      &.Mui-active {
+        @apply pt-[1px] bg-black/[.1];
+      }
+      &.Mui-disabled {
+        @apply text-neutral-400/[.5];
+      }
+      &__text {
+        @apply text-[14px];
+      }
+      &--small {
+        @apply text-[22px];
+      }
+      &--time {
+        &__text {
+          @apply -ml-[10px] p-[1px] text-[11px]/none bg-neutral-200;
+        }
+      }
+      // display: block;
+      // padding: 3px 0;
+      // width: 34px;
+      // height: 30px;
+      // font-family: 'Droid Serif';
+      // font-size: 24px;
+      // font-weight: 700;
+      // line-height: 24px;
+      // color: #444;
+      // text-align: center;
+      // border-radius: 3px;
+      // &.on {
+      //     padding: 1px 0;
+      //     border: 2px solid #8cf;
+      //     background-color: #fff;
+      //     &:active {
+      //         padding: 2px 0 0;
+      //     }
+      // }
+      // &.slim-icon {
+      //     .material-symbols-rounded {
+      //         font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      //     }
+      // }
+    }
+    &__group {
+      @apply flex flex-row;
+    }
+    &__color-chips {
+      @apply absolute top-full right-0 flex flex-row flex-wrap justify-between w-[110px] p-[5px] z-[20] border border-r-0 border-neutral-300 rounded-bl-[5px] bg-white drop-shadow-md;
+    }
+    &__search {
+      @apply absolute top-full right-0 flex flex-row z-[21] border border-r-0 border-neutral-300 rounded-bl-[5px] bg-white drop-shadow-md;
+      &__input {
+        @apply text-[14px]/[22px];
+      }
+    }
+  }
+  .color-chip {
+    @apply w-[24px] h-[24px] pt-[1px] rounded-full border-[2px] border-white shadow-sm;
+    &__text {
+      @apply block w-[60px] ml-[5px] font-['arial'] text-[13px]/none text-left uppercase;
+      // font-feature-settings: "smcp", "zero";
+    }
+  }
+  .search {
+    &__inbox {
+      @apply flex flex-row items-center p-[4px];
+    }
+    &__input {
+      @apply flex flex-row items-center w-[140px] h-[24px] bg-neutral-100 rounded-[3px] overflow-hidden;
+      &--button {
+        @apply flex items-center justify-center w-[30px];
+      }
+      > .MuiInput-input {
+        @apply w-full h-full px-[8px] text-[14px]/[22px] bg-[inherit] outline-none;
+      }
+      &.Mui-focused {
+        @apply outline outline-1 -outline-offset-1 outline-violet-600;
+      }
+      &.Mui-disabled {
+        @apply bg-neutral-300;
+      }
+    }
+    &__error {
+      @apply flex flex-row items-center w-[140px] h-[24px] px-[8px] text-[14px]/[22px] text-neutral-400 bg-neutral-300 rounded-[3px] overflow-hidden;
+    }
+    &__counter {
+      @apply flex items-center w-[100px] px-[5px] text-[12px]/[22px];
+      &--current {
+        @apply ml-[.25em];
+      }
+    }
+    &__warning {
+      @apply controls__button;
+      @apply h-[32px] min-w-[30px] -my-[5px] mr-[4px] -ml-[4px] px-0 text-[16px] text-neutral-800 rounded-none rounded-bl-[5px];
+      &--active {
+        @apply search__warning;
+        @apply text-red-600 bg-red-100;
+      }
+    }
+    &__control {
+      @apply flex flex-row;
+      &--button {
+        @apply controls__button;
+        @apply h-[24px] min-w-[24px] px-0 text-[16px] text-neutral-800 rounded-none;
+      }
+    }
+  }
+  .badge {
+    &__warning {
+      @apply relative;
+      > .MuiBadge-badge {
+        @apply absolute -top-[6px] -right-[2px] flex items-center justify-center w-[18px] h-[18px] text-[12px]/[18px] text-white rounded-full bg-red-600 select-none pointer-events-none;
+      }
+      .Mui-active ~ .MuiBadge-badge {
+        @apply -top-[5px];
+      }
+    }
+  }
+}

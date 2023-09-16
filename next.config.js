@@ -1,14 +1,15 @@
 /** @type {import('next').NextConfig} */
-const path = require('path');
 const nextTranslate = require('next-translate-plugin')
+const withPlugins = require('next-compose-plugins')
 
-const nextConfig = {
+const nextConfig = withPlugins([], {
+  assetPrefix: '.',
   reactStrictMode: true,
-  sassOptions: {
-    includePaths: [path.join(__dirname, 'assets/styles')],
-    prependData: `@import "@styles/_variables.scss"; @import "@styles/_mixins.scss";`, // prependData 옵션 추가
-  },
+  webpack(config, { isClient }) {
+    if (isClient) {
+    }
+	},
   ...nextTranslate()
-}
+})
 
 module.exports = nextConfig

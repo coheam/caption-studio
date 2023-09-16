@@ -1,8 +1,55 @@
 {
+  "sheet-loading": "loading...",
+  "sheet-head-index": "#",
+  "sheet-head-start": "시작",
+  "sheet-head-end": "종료",
+  "sheet-head-dur": "지속",
+  "sheet-head-text": "내용",
+  "sheet-head-memo": "메모",
+  "sheet-add": "시트 추가",
+
+  "delete": "삭제",
+
   "new-file": "새로 만들기",
   "import-video": "동영상 가져오기",
   "import-subtitle": "자막 가져오기",
-  "export-subtitle": "자막 내려받기",
+  "export-subtitle": "자막 저장",
   "cs-setting": "설정",
-  "cs-manual": "매뉴얼"
+  "cs-manual": "매뉴얼",
+
+  "time-plus": "시간 증가",
+  "time-minus": "시간 감소",
+
+  "text-edit": "내용 편집",
+  "row-add": "열 추가",
+  "row-remove": "열 삭제",
+  "row-select": "열 선택",
+
+  "font-bold": "두껍게",
+  "font-underlined": "밑줄",
+  "font-italic": "기울임",
+  "font-color": "글자 색 리스트",
+  "font-color-reset": "글자 색 초기화",
+  "colorize": "색상 선택",
+
+  "history-back": "실행 취소",
+  "history-forward": "재 실행",
+
+  "select-color": "선택된 색상",
+
+  "button-prev": "이전",
+  "button-next": "다음",
+  "button-cancel": "취소",
+  "button-apply": "적용",
+  "button-close": "닫기",
+  "button-confirm": "확인",
+
+  "text-warning": "경고",
+  "placeholder-find": "찾기",
+  "placeholder-find-error": "오류",
+  "find-of": "의 ",
+
+  "no-result": "결과 없음",
+
+  "confirm-sheet-remove": "이 시트에서 작업중이던 내용이 영구적으로 삭제 됩니다.<br>시트를 삭제하시겠습니까?"
 }

@@ -1,0 +1,78 @@
+@layer utilities {
+
+  .colorpicker {
+    @apply rounded-[6px] bg-white;
+    &__header {
+      @apply flex flex-row items-end pt-[24px] px-[22px] pb-[16px] gap-[10px];
+      &__inbox {
+        @apply flex flex-col;
+      }
+      &__title {
+        @apply block mb-[4px] text-[12px]/none uppercase text-neutral-500;
+      }
+      &__color {
+        &--chip {
+          @apply flex items-center justify-center w-[48px] h-[48px] text-[24px] font-bold rounded-full drop-shadow before:content-['#'];
+        }
+        &--code {
+          @apply w-[130px] -ml-[2px] pb-[2px] text-[24px]/none font-bold uppercase tracking-[.125em] text-neutral-700;
+          .MuiInput-input {
+            @apply w-full h-[1em] uppercase tracking-[.125em] border-none outline-none;
+          }
+        }
+      }
+    }
+    &__body {
+      @apply py-[16px] px-[24px];
+      &:not(:first-child) {
+        @apply pt-[0];
+      }
+      &:not(:last-child) {
+        @apply pb-[0];
+      }
+    }
+    &__saturation {
+      @apply relative mb-[8px] z-[2] outline-none;
+      &__interactive {
+        @apply relative w-[240px] rounded-[5px] before:block after:block outline-none;
+        &::before {
+          @apply w-full h-[160px] border border-neutral-300 rounded-[4px] bg-gradient-to-r from-white to-white/[0]
+        }
+        &::after {
+          @apply absolute inset-0 w-full h-[160px] border border-neutral-300 rounded-[4px] bg-gradient-to-t from-black to-black/[0]
+        }
+      }
+    }
+    &__hue {
+      @apply relative outline-none;
+      &__interactive {
+        @apply relative w-[240px] py-[12px] overflow-hidden outline-none before:block;
+        &::before {
+          @apply w-full h-[6px] border border-neutral-300 rounded-[4px] bg-[linear-gradient(90deg,red_0,#ff0_17%,#0f0_33%,#0ff_50%,#00f_67%,#f0f_83%,red)];
+        }
+        &--vertical {
+          @apply relative w-[20px] h-[240px] bg-white rounded-[3px] overflow-hidden before:block after:block;
+          &::before {
+            @apply absolute inset-0 w-full h-full bg-[linear-gradient(180deg,red_0,#ff0_17%,#0f0_33%,#0ff_50%,#00f_67%,#f0f_83%,red)];
+          }
+        }
+      }
+    }
+    &__chipset {
+      @apply flex flex-row flex-wrap mt-[16px] -mx-[1px] w-[242px] gap-[10px];
+    }
+    &--pointer {
+      @apply absolute w-[24px] h-[24px] rounded-full border-[2px] border-white bg-white select-none pointer-events-none -translate-x-1/2 -translate-y-1/2 drop-shadow-md;
+    }
+    &__footer {
+      @apply flex flex-row flex-wrap items-end justify-end px-[23px] pb-[16px] w-[288px] gap-[16px] overflow-x-auto;
+    }
+    .button__color-chip {
+      @apply color-chip;
+      @apply flex items-center justify-center w-[32px] h-[32px] text-[24px] shrink-0 select-none;
+      .icon {
+        @apply select-none pointer-events-none;
+      }
+    }
+  }
+}

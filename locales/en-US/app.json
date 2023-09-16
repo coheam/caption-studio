@@ -1,8 +1,55 @@
 {
-  "new-file": "new",
-  "import-video": "import video",
-  "import-subtitle": "import subtitle",
-  "export-subtitle": "export subtitle",
-  "cs-setting": "setting",
-  "cs-manual": "manual"
+  "sheet-loading": "Loading...",
+  "sheet-head-index": "#",
+  "sheet-head-start": "Start",
+  "sheet-head-end": "End",
+  "sheet-head-dur": "Duration",
+  "sheet-head-text": "Text",
+  "sheet-head-memo": "Memo",
+  "sheet-add": "Add Sheet",
+
+  "delete": "Delete",
+
+  "new-file": "New",
+  "import-video": "Import Video",
+  "import-subtitle": "Import Subtitle",
+  "export-subtitle": "Save Subtitle",
+  "cs-setting": "Setting",
+  "cs-manual": "Manual",
+
+  "time-plus": "Increase Time",
+  "time-minus": "Decrease Time",
+
+  "text-edit": "Text Edit",
+  "row-add": "Add Timeline",
+  "row-remove": "Remove Timeline",
+  "row-select": "Select Timeline",
+
+  "font-bold": "Bold",
+  "font-underlined": "Underline",
+  "font-italic": "Italic",
+  "font-color": "Text Colors",
+  "font-color-reset": "Reset Text Color",
+  "colorize": "Select Color Set",
+
+  "history-back": "Undo",
+  "history-forward": "Redo",
+
+  "select-color": "Select Color",
+
+  "button-prev": "Prev",
+  "button-next": "Next",
+  "button-cancel": "Cancel",
+  "button-apply": "Apply",
+  "button-close": "Close",
+  "button-confirm": "Confirm",
+  
+  "text-warning": "Warning",
+  "placeholder-find": "Find",
+  "placeholder-find-error": "Error",
+  "find-of": " of ",
+  
+  "no-result": "No Result",
+
+  "confirm-sheet-remove": "Any work in progress on this sheet will be permanently deleted.<br>Are you sure you want to delete the sheet?"
 }

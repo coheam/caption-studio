@@ -1,0 +1,20 @@
+@layer utilities {
+  .dialog {
+    @apply fixed inset-0 flex items-center justify-center w-full h-full z-[1000];
+    &__dimmed {
+      @apply absolute inset-0 h-full bg-black/[.5] backdrop-blur-sm z-[0];
+    }
+    &__inbox {
+      @apply relative z-[1];
+    }
+  }
+  .confirm {
+    @apply relative w-[calc(100vw-20px)] max-w-[400px] min-w-[300px] py-[16px] px-[24px] bg-white rounded-[8px];
+    &__content {
+      @apply text-[14px]/[22px] text-neutral-700 break-keep;
+    }
+    &__footer {
+      @apply flex flex-row mt-[32px];
+    }
+  }
+}
